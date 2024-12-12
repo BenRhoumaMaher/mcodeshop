@@ -38,9 +38,9 @@
 						</ul>
 						<div class="speed-menu">
 							{% if app.user %}
-								<a href="{{path("app_account")}}">
+								<a href="{{path("app_account")}}" class="text-decoration-none">
 									<i data-feather="user"></i>
-									{{app.user.firstname}}
+									<span class="text-danger">{{app.user.firstname}}</span>
 								</a>
 							{% else %}
 								<a href="{{path("app_login")}}">

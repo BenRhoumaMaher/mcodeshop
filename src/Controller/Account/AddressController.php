@@ -2,6 +2,7 @@
 
 namespace App\Controller\Account;
 
+use App\Classe\Cart;
 use App\Entity\Address;
 use App\Form\AddressUserType;
 use App\Repository\AddressRepository;
@@ -52,7 +53,7 @@ class AddressController extends AbstractController
         name: 'app_account_address_form',
         defaults: ['id' => null]
     )]
-    public function form(Request $request, $id): Response
+    public function form(Request $request, $id, Cart $cart): Response
     {
         if ($id) {
             $address = $this->addressRepository->findOneById($id);
@@ -73,6 +74,9 @@ class AddressController extends AbstractController
                 'success',
                 'your address has been updated'
             );
+            if ($cart->fullQantity() > 0) {
+                return $this->redirectToRoute('app_order');
+            }
             return $this->redirectToRoute('app_account_address');
         }
         return $this->render(
