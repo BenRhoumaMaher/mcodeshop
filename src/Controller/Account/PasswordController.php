@@ -1,29 +1,23 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Account;
 
 use App\Form\PasswordUserType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-class AccountController extends AbstractController
+class PasswordController extends AbstractController
 {
     public function __construct(
         private EntityManagerInterface $entityManager
     ) {
     }
-    #[Route('/account', name: 'app_account')]
-    public function index(): Response
-    {
-        return $this->render('account/index.html.twig');
-    }
-
     #[Route('/account/modify-password', name: 'app_account_modify_pwd')]
-    public function password(
+    public function index(
         Request $request,
         UserPasswordHasherInterface $passwordHasher
     ): Response {
@@ -44,7 +38,7 @@ class AccountController extends AbstractController
             $this->entityManager->flush();
         }
         return $this->render(
-            'account/password.html.twig',
+            'account/password/index.html.twig',
             [
             'modifyPwd' => $form->createView()
             ]
