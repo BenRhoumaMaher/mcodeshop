@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegisterUserFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use Src\Classe\Mail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -30,6 +31,17 @@ class RegisterController extends AbstractController
             $this->addFlash(
                 'success',
                 'your account has been created'
+            );
+            $mail = new Mail();
+            $vars = [
+                'firstname' => $user->getFirstname(),
+            ];
+            $mail->send(
+                $user->getEmail(),
+                $user->getFirstname(). ' ' .$user->getLastName(),
+                'welcome',
+                "Welcome.html",
+                $vars
             );
             return $this->redirectToRoute('app_login');
         }
