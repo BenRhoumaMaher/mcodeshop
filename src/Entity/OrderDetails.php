@@ -48,6 +48,12 @@ class OrderDetails
         return $this;
     }
 
+    public function getProductPriceWt()
+    {
+        $coeff = 1 + ($this->productTva / 100);
+        return $coeff * $this->productPrice;
+    }
+
     public function getProductName(): ?string
     {
         return $this->productName;

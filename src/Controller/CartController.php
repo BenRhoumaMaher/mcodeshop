@@ -16,9 +16,19 @@ class CartController extends AbstractController
         private ProductRepository $productRepository
     ) {
     }
-    #[Route('/cart', name: 'app_cart')]
-    public function index(): Response
+    #[Route(
+        '/cart/{motif}',
+        name: 'app_cart',
+        defaults:['motif' => null]
+    )]
+    public function index($motif): Response
     {
+        if ($motif == "annulation") {
+            $this->addFlash(
+                'info',
+                'payment canceled'
+            );
+        }
         return $this->render(
             'cart/index.html.twig',
             [

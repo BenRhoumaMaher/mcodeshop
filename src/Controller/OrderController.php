@@ -93,6 +93,7 @@ class OrderController extends AbstractController
             [
             'choices' => $form->getData(),
             'cart' => $products,
+            'order' => $order,
             'totalWt' => $cart->getTotalWt()
             ]
         );

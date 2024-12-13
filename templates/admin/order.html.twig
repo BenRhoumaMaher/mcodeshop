@@ -7,7 +7,9 @@
 	<br/>
 	<br/>
 	<span>Passed the :
-		{{order.createdAt|date('d/m/Y')}}</span>
+		{{order.createdAt|date('d/m/Y')}}</span><br/>
+	<span>Stripe session id:
+		{{order.stripeSessionId}}</span>
 	<div class="row my-4">
 		<div class="col-md-6">
 			<strong>Delivery address:

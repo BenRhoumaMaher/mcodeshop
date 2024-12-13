@@ -8,34 +8,31 @@
 				{% include 'account/_menu.html.twig' %}
 			</div>
 			<div class="col-md-9">
-				<h5>my latest commands</h5>
+				<h5 class="text-warning">my latest orders</h5>
+				{% if orders|length == 0 %}
+					<div class="alert alert-info">
+						You don't have any order yet
+					</div>
+				{% endif %}
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col">#</th>
-							<th scope="col">First</th>
-							<th scope="col">Last</th>
-							<th scope="col">Handle</th>
+							<th scope="col">N</th>
+							<th scope="col">Date</th>
+							<th scope="col">Status</th>
+							<th scope="col">Total T.T.C</th>
+							<th scope="col"></th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>Jacob</td>
-							<td>Thornton</td>
-							<td>@fat</td>
-						</tr>
-						<tr>
-							<th scope="row">3</th>
-							<td colspan="2">Larry the Bird</td>
-							<td>@twitter</td>
-						</tr>
+						{% for order in orders %}
+							<tr>
+								<th>{{order.id}}</th>
+								<td>{{order.createdAt|date('d/m/Y')}}</td>
+								<td>{{include('admin/state.html.twig',{field:{'value': order.state}})}}</td>
+								<td><a href="{{path('app_account_order',{'id_order': order.id})}}">View</a></td>
+							</tr>
+						{% endfor %}
 					</tbody>
 				</table>
 			</div>

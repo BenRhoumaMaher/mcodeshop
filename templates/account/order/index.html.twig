@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container my-5">
+        <h1>Private Member Space</h1>
+        
+        <div class="row">
+            <div class="col-md-3">
+                {% include 'account/_menu.html.twig' %}
+            </div>
+
+            <div class="col-md-8">
+                <small>
+                    <a href="{{ path('app_account') }}" class="btn btn-light btn-sm">Return</a>
+                </small>
+                
+                <h5>My Order #{{ order.id }}</h5>
+                <span>Passed on: {{ order.createdAt|date('d/m/Y') }}</span><br/>
+                {{ include('admin/state.html.twig', { field: { 'value': order.state } }) }}
+                <hr/>
+
+                <div class="row my-4">
+                    <div class="col-md-6">
+                        <strong>Delivery Address:</strong><br/>
+                        {{ order.delivery|raw }}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Carrier:</strong><br/>
+                        {{ order.carrierName }}
+                    </div>
+                </div>
+
+                <strong>Order Content:</strong><br/>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Illustration</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Unit Price H.T</th>
+                            <th scope="col">TVA</th>
+                            <th scope="col">Total T.T.C</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in order.orderDetails %}
+                            <tr>
+                                <td>
+                                    <img src="/uploads/{{ product.productIllustration }}" width="100px" alt="">
+                                </td>
+                                <td>{{ product.productName }}</td>
+                                <td>{{ product.productQuantity }}</td>
+                                <td>{{ product.productPrice|price }}</td>
+                                <td>{{ product.productTva }}</td>
+                                {% set coeff = 1 + (product.productTva / 100) %}
+                                <td>{{ ((product.productPrice * coeff) * product.productQuantity)|price }}</td>
+                            </tr>
+                        {% endfor %}
+
+                        <tr>
+                            <td></td>
+                            <td>{{ order.carrierName }}</td>
+                            <td>1</td>
+                            <td></td>
+                            <td></td>
+                            <td>{{ order.carrierPrice|price }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="text-start">
+                    <strong class="text-info">Total H.T:</strong>
+                    {{ (order.totalWt - order.totalTva)|price }}<br/>
+                    
+                    <strong class="text-warning">Total TVA:</strong>
+                    {{ order.totalTva|price }}<br/>
+                    
+                    <strong class="text-primary">Total T.T.C:</strong>
+                    {{ order.totalWt|price }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

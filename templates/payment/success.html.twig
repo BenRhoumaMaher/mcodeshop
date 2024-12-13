@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="container my-5
+			     text-center">
+		<h1>Thank you for your order !!!</h1>
+        <a href="{{path('app_account_order',{'id_order': order.id})}}" class="btn btn-success">Consult your order</a>
+	</div>
+{% endblock %}
