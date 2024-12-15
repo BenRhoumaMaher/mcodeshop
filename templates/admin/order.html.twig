@@ -1,7 +1,17 @@
 {% extends "@!EasyAdmin/layout.html.twig" %}
 
 {% block main %}
-	<h3>Order N:
+	<h2>act on the order</h2>
+	{% if order.state != 1 %}
+		<a href="{{current_url}}&state=3" class="{% if order.state == 3 %}d-none{% endif %} btn btn-warning">currently being prepared</a>
+		<a href="{{current_url}}&state=4" class="{% if order.state == 4 %}d-none{% endif %} btn btn-success">order delivered</a>
+		<a href="{{current_url}}&state=5" class="{% if order.state == 5 %}d-none{% endif %} btn btn-danger">order canceled</a>
+	{% else %}
+		<p>This order should be payed to be able to follow its state</p>
+	{% endif %}
+	<hr>
+	<a target="_blank" href="{{ path('app_invoice_admin',{id_order: order.id}) }}" class="btn btn-warning btn-sm">view/print invoice</a>
+	<h3 class="mt-2">Order N:
 		{{order.id}}</h3>
 	{{include('admin/state.html.twig',{field:{'value': order.state}})}}
 	<br/>

@@ -1,13 +1,24 @@
 <ul class="nav flex-column">
 	<li class="nav-item">
-		<a class="nav-link" href="{{path('app_account')}}">Commandes</a>
+		<a class="nav-link" href="{{path('app_account')}}">Orders</a>
 	</li>
 	<li class="nav-item">
 		<a class="nav-link" href="{{path('app_account_address')}}">Addresses</a>
 	</li>
 	<li class="nav-item">
+		<a class="nav-link" href="{{path('app_account_wishlist')}}">My WishList</a>
+	</li>
+	<li class="nav-item">
 		<a class="nav-link" href="{{path('app_account_modify_pwd')}}">Modify password</a>
 	</li>
+	{% if is_granted('ROLE_ADMIN') %}
+		<li class="nav-item">
+			<a class="nav-link" href="{{path('admin')}}">
+				Administration
+			</a>
+		</li>
+	{% endif %}
+	<li></li>
 	<li class="nav-item">
 		<a class="nav-link" href="{{path('app_logout')}}">Logout</a>
 	</li>

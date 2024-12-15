@@ -16,9 +16,34 @@
 				<h1>{{product.name}}</h1>
 				<span class="d-block mb-3">{{product.pricewt|price}}</span>
 				{{product.description|raw}}
-				<a href="{{path('app_cart_add',{id: product.id})}}" class="btn btn-success">
-					Add to Basket
-				</a>
+				<div class="d-flex align-items-center justify-content-between mt-3">
+					<a href="{{path('app_cart_add',{id: product.id})}}" class="btn btn-success w-100">
+						Add to Basket
+					</a>
+					{% if app.user %}
+						{% if product in app.user.wishlists %}
+							<a class="wishlist-icon wishlist-icon-active ms-2" href="{{path('app_account_wishlist_remove',{id: product.id})}}" style="ms-2">
+								<i data-feather="heart"></i>
+							</a>
+						{% else %}
+							<a class="wishlist-icon ms-2" href="{{path('app_account_wishlist_add',{id: product.id})}}" style="ms-2">
+								<i data-feather="heart"></i>
+							</a>
+						{% endif %}
+					{% else %}
+						<a data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+							<i data-feather="heart" class="ms-2"></i>
+						</a>
+					{% endif %}
+				</div>
+				<div class="collapse" id="collapseExample">
+					<div class="mt-2 card-body">
+						To use adventages of the WishList,
+						<a href="{{path('app_login')}}" class="text-decoration-none">login</a>
+						or
+						<a class="text-decoration-none href=" {{path('app_register')}} ">create  new account</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
