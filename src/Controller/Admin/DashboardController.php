@@ -12,7 +12,6 @@
  * @package  App\Controller\Admin
  * @author   Maher Ben Rhouma <maherbenrhoumaaa@gmail.com>
  * @license  No license (Personal project)
-Maher Ben Rhouma <maherbenrhoumaaa@gmail.com>
  * @link     https://symfony.com/doc/current/bundles/EasyAdminBundle/index.html
  */
 
