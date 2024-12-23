@@ -17,6 +17,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegisterUserFormType;
+use App\Logger\AuthLogger;
 use Doctrine\ORM\EntityManagerInterface;
 use Src\Classe\Mail;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,9 +44,11 @@ class RegisterController extends AbstractController
      * Initializes the controller with required dependencies.
      *
      * @param EntityManagerInterface $entityManager The entity manager to handle database operations.
+     * @param AuthLogger             $authLogger    Logs authentication events.
      */
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private AuthLogger $authLogger
     ) {
     }
 
@@ -68,6 +71,11 @@ class RegisterController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($user);
             $this->entityManager->flush();
+
+            $this->authLogger->logUserRegistration(
+                sprintf('%s %s', $user->getFirstname(), $user->getLastname()),
+                $user->getEmail()
+            );
 
             $this->addFlash('success', 'Your account has been created');
 

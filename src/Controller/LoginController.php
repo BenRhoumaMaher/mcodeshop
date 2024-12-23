@@ -15,6 +15,7 @@
 
 namespace App\Controller;
 
+use App\Logger\AuthLogger;
 use LogicException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -40,9 +41,11 @@ class LoginController extends AbstractController
      * Initializes the controller with required dependencies.
      *
      * @param AuthenticationUtils $authenticationUtils Provides utilities for user authentication.
+     * @param AuthLogger          $authLogger          Logs authentication events.
      */
     public function __construct(
-        private AuthenticationUtils $authenticationUtils
+        private AuthenticationUtils $authenticationUtils,
+        private AuthLogger $authLogger
     ) {
     }
 
@@ -56,6 +59,12 @@ class LoginController extends AbstractController
     {
         $error = $this->authenticationUtils->getLastAuthenticationError();
         $lastUsername = $this->authenticationUtils->getLastUsername();
+
+        if ($error) {
+            $this->authLogger->logLoginFailure($lastUsername);
+        } else {
+            $this->authLogger->logLoginSuccess($lastUsername);
+        }
 
         return $this->render(
             'login/index.html.twig',
